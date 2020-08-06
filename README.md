@@ -102,14 +102,14 @@ Within the download you'll find the following directories and files:
     │   ├── general.jsx
     │   └── icons.jsx
     ├── views
-    │   ├── Dashboard.jsx
-    │   ├── Icons.jsx
-    │   ├── Map.jsx
-    │   ├── Notifications.jsx
-    │   ├── Tables.jsx
-    │   ├── Typography.jsx
-    │   ├── Upgrade.jsx
-    │   └── User.jsx
+    │   ├── Recepcion.jsx
+    │   ├── 
+    │   ├── 
+    │   ├── 
+    │   ├── 
+    │   ├── 
+    │   ├── 
+    │   └── 
     └── assets
         ├── css
         │   ├── paper-dashboard.css
