@@ -8,7 +8,8 @@ import {
     CardBody,
     Pagination,
     PaginationItem,
-    PaginationLink
+    PaginationLink,
+    Spinner
   } from "reactstrap";
 import axios from "axios";
 
@@ -17,17 +18,22 @@ const ListadoRecepcion = () => {
     const [page, setPage] = useState(1);
     const [lotes, setLotes] = useState([]);
     const [pages, setPages] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const setPagination = (totalPages) => {
+        setPages([]);
         for(let i = 1; i <= totalPages; i++) {
             setPages(pages => [...pages, i]);
         }
     }
 
     useEffect(() => {
+        setIsLoading(true);
+
         axios.get(`http://localhost:8000/recepcion/listado_lotes/${page}`).then((response) => {
             setLotes(response.data.data);
             setPagination(response.data.total_paginas);
+            setIsLoading(false);
         });
     }, [page]);
 
@@ -39,6 +45,11 @@ const ListadoRecepcion = () => {
                         <NavLink to="/admin/recepcion/lote">
                             <Button className="btn btn-primary">
                                 Registrar Lote
+                            </Button>
+                        </NavLink>
+                        <NavLink to="/admin/recepcion/jornadas">
+                            <Button className="btn btn-warning">
+                                Jornadas
                             </Button>
                         </NavLink>
                     </div>
@@ -68,21 +79,30 @@ const ListadoRecepcion = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {lotes.map((lote, index) => {
-                                return <tr key={index}>
-                                    <td>{lote.loteCodigo}</td>
-                                    <td>{lote.productor}</td>
-                                    <td>{lote.nroGuia}</td>
-                                    <td>{lote.fechaCosecha}</td>
-                                    <td>{lote.fechaInicio}</td>
-                                    <td>{lote.totalJabas}</td>
-                                    <td>{lote.pesoNetoLote}</td>
-                                    <td>{lote.jabasDescarteA}</td>
-                                    <td>{lote.pesoDescarteA}</td>
-                                    <td>{lote.jabasDescarteA/lote.totalJabas}</td>
-                                    <td>{lote.pesoDescarteA/lote.pesoNetoLote}</td>
-                                </tr>;
-                            })}
+                            { isLoading
+                               ? <tr>
+                                   <td colSpan="13" align="center">
+                                    <Spinner type="grow" color="info"/>
+                                    <Spinner type="grow" color="info" />
+                                    <Spinner type="grow" color="info"/>
+                                   </td>
+                                 </tr>                         
+                               : lotes.map((lote, index) => {
+                                    return <tr key={index}>
+                                        <td>{lote.loteCodigo}</td>
+                                        <td>{lote.productor}</td>
+                                        <td>{lote.nroGuia}</td>
+                                        <td>{lote.fechaCosecha}</td>
+                                        <td>{lote.fechaInicio}</td>
+                                        <td>{lote.totalJabas}</td>
+                                        <td>{lote.pesoNetoLote}</td>
+                                        <td>{lote.jabasDescarteA}</td>
+                                        <td>{lote.pesoDescarteA}</td>
+                                        <td>{lote.jabasDescarteA/lote.totalJabas}</td>
+                                        <td>{lote.pesoDescarteA/lote.pesoNetoLote}</td>
+                                    </tr>;
+                                })
+                            }   
                         </tbody>
                     </Table>
                     <Pagination aria-label="Page navigation example">
@@ -93,10 +113,10 @@ const ListadoRecepcion = () => {
                             <PaginationLink previous />
                         </PaginationItem>
                         {
-                            pages.map((page, index) => {
-                            return <PaginationItem key={index}>
-                                <PaginationLink onClick={() => setPage(page)}>
-                                    {page}
+                            pages.map((pageNumber, index) => {
+                            return <PaginationItem key={index} active={page == pageNumber}>
+                                <PaginationLink onClick={() => setPage(pageNumber)}>
+                                    {pageNumber}
                                 </PaginationLink>
                             </PaginationItem>
                             })
