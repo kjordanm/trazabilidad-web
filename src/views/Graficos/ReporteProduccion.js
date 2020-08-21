@@ -8,10 +8,7 @@ import {
     Row,
     Col
   } from "reactstrap";
-import { Line, Pie } from "react-chartjs-2";
-import {
-    dashboardNASDAQChart,
-} from "variables/charts.js";
+import { Line } from "react-chartjs-2";
 import axios from "axios";
 
 

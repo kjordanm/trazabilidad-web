@@ -82,8 +82,8 @@ const ListadoRecepcion = () => {
                             { isLoading
                                ? <tr>
                                    <td colSpan="13" align="center">
-                                    <Spinner type="grow" color="info"/>
-                                    <Spinner type="grow" color="info" />
+                                    <Spinner type="grow" color="info" className="mr-2"/>
+                                    <Spinner type="grow" color="info" className="mr-2"/>
                                     <Spinner type="grow" color="info"/>
                                    </td>
                                  </tr>                         
@@ -100,6 +100,16 @@ const ListadoRecepcion = () => {
                                         <td>{lote.pesoDescarteA}</td>
                                         <td>{lote.jabasDescarteA/lote.totalJabas}</td>
                                         <td>{lote.pesoDescarteA/lote.pesoNetoLote}</td>
+                                        <td>
+                                            <NavLink to={`/admin/recepcion/pesaje/${lote.loteId}`}>
+                                                <Button className="btn btn-info">Pesaje</Button>
+                                            </NavLink>
+                                        </td>
+                                        <td>
+                                            <NavLink to={`/admin/recepcion/descarte/${lote.loteId}`}>
+                                                <Button className="btn btn-secondary">Descarte</Button>
+                                            </NavLink>
+                                        </td>
                                     </tr>;
                                 })
                             }   
@@ -114,7 +124,7 @@ const ListadoRecepcion = () => {
                         </PaginationItem>
                         {
                             pages.map((pageNumber, index) => {
-                            return <PaginationItem key={index} active={page == pageNumber}>
+                            return <PaginationItem key={index} active={page === pageNumber}>
                                 <PaginationLink onClick={() => setPage(pageNumber)}>
                                     {pageNumber}
                                 </PaginationLink>
